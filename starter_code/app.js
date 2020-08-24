@@ -14,7 +14,14 @@ app.get('/', (req, res, next) => {
     res.render('index');
 });
 app.get('/beers', (req, res, next) => {
-    res.render('beers');
+    punkAPI.getBeers()
+        .then(beers => {
+            if (beers[0].image_url == null) beers[0].image_url = 'https://images.punkapi.com/v2/keg.png'
+            res.render('beers', { beers })
+        })
+        .catch(error => {
+            console.log(error)
+        })
 });
 app.get('/random-beers', (req, res, next) => {
     res.render('index');
