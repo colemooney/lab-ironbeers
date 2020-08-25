@@ -24,7 +24,14 @@ app.get('/beers', (req, res, next) => {
         })
 });
 app.get('/random-beers', (req, res, next) => {
-    res.render('index');
+    punkAPI.getRandom()
+        .then(beers => {
+            if (beers[0].image_url == null) beers[0].image_url = 'https://images.punkapi.com/v2/keg.png'
+            res.render('beers', { beers })
+        })
+        .catch(error => {
+            console.log(error)
+        })
 });
 
 app.listen(3000, () => console.log('🏃‍ on port 3000'));
